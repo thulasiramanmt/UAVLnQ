@@ -220,7 +220,7 @@ class DroneCommander:
 
     def connect_single_drone(self, index, conn_str, connected_vehicles):
         try:
-            vehicle = connect(conn_str, wait_ready=True, heartbeat_timeout=60)
+            vehicle = connect(conn_str, wait_ready=True, heartbeat_timeout=60, timeout=180)
             print(f"Connected to drone {index + 1}, waiting for armable state...")
             while not vehicle.is_armable:
                 print(f"Drone {index + 1}: Waiting to become armable...")
