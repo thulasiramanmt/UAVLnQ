@@ -1,0 +1,25 @@
+Mavlink Parser Connected to ZMQ tcp://localhost:5555
+Forwarding messages to QGroundControl instances:
+  Drone 1 -> QGC port 14550
+  Drone 2 -> QGC port 14560
+  Drone 3 -> QGC port 14570
+Connecting to Drone 1 at udp:127.0.0.1:14553...
+Connecting to Drone 2 at udp:127.0.0.1:14563...
+Connecting to Drone 3 at udp:127.0.0.1:14573...
+Waiting for MAVLink Commands...
+
+Connected to Drone 2
+Connected to Drone 1
+Connected to Drone 3
+Received: MISSION_ITEM {target_system : 2, target_component : 0, seq : 0, frame : 3, command : 16, current : 0, autocontinue : 1, param1 : 0.0, param2 : 0.0, param3 : 0.0, param4 : 0.0, x : 50.0, y : 60.0, z : 30.0}
+Appended Mission Item To mission/mission-drone-2.pln: 2,50.0000000,60.0000000,30.0
+Received: MISSION_ITEM {target_system : 3, target_component : 0, seq : 0, frame : 3, command : 16, current : 0, autocontinue : 1, param1 : 0.0, param2 : 0.0, param3 : 0.0, param4 : 0.0, x : 50.0, y : 60.0, z : 30.0}
+Appended Mission Item To mission/mission-drone-3.pln: 3,50.0000000,60.0000000,30.0
+Received: MISSION_ITEM {target_system : 2, target_component : 0, seq : 0, frame : 3, command : 16, current : 0, autocontinue : 1, param1 : 0.0, param2 : 0.0, param3 : 0.0, param4 : 0.0, x : 10.0, y : 30.0, z : 30.0}
+Appended Mission Item To mission/mission-drone-2.pln: 2,10.0000000,30.0000000,30.0
+Received: MISSION_ITEM {target_system : 3, target_component : 0, seq : 0, frame : 3, command : 16, current : 0, autocontinue : 1, param1 : 0.0, param2 : 0.0, param3 : 0.0, param4 : 0.0, x : 20.0, y : 60.0, z : 30.0}
+Appended Mission Item To mission/mission-drone-3.pln: 3,20.0000000,60.0000000,30.0
+Received: MISSION_ITEM {target_system : 2, target_component : 0, seq : 0, frame : 3, command : 16, current : 0, autocontinue : 1, param1 : 0.0, param2 : 0.0, param3 : 0.0, param4 : 0.0, x : 60.0, y : 10.0, z : 30.0}
+Appended Mission Item To mission/mission-drone-2.pln: 2,60.0000000,10.0000000,30.0
+Received: MISSION_ITEM {target_system : 3, target_component : 0, seq : 0, frame : 3, command : 16, current : 0, autocontinue : 1, param1 : 0.0, param2 : 0.0, param3 : 0.0, param4 : 0.0, x : 20.0, y : 30.0, z : 30.0}
+Appended Mission Item To mission/mission-drone-3.pln: 3,20.0000000,30.0000000,30.0

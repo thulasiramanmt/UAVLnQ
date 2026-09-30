@@ -1,0 +1,214 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="uavlnq-lld" name="UAVLnQ LLD (3-drone baseline)">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;UAVLnQ low-level design&lt;/b&gt;: 3-drone leader-follower baseline (commit 78f81d64). See docs/uavlnq-code-review.md for Fn findings." style="text;html=1;fontSize=15;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="1300" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c_sitl" value="ArduPilot SITL x3 (sim_vehicle.py)" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontSize=13;dashed=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="20" y="80" width="260" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="c_cp" value="connect.py (Python 3.9)" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontSize=13;dashed=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="330" y="80" width="480" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="c_ns3" value="ns-3.44 three_drone_mesh_normal (RealtimeSimulatorImpl)" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontSize=13;dashed=0;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="880" y="80" width="460" height="440" as="geometry" />
+        </mxCell>
+        <mxCell id="c_par" value="Mavlink-NS3-Parser.py" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontSize=13;dashed=0;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="880" y="560" width="460" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="sitl0" value="&lt;b&gt;Drone 1&lt;/b&gt; (-I0, --sysid=1)&lt;br&gt;arducopter  &amp;lt;TCP 5760&amp;gt;  MAVProxy&lt;br&gt;--out 14551 / 14552 / 14553&lt;br&gt;default out 14550, 14551" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="220" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="sitl1" value="&lt;b&gt;Drone 2&lt;/b&gt; (-I1, --sysid=2)&lt;br&gt;arducopter  &amp;lt;TCP 5770&amp;gt;  MAVProxy&lt;br&gt;--out 14561 / 14562 / 14563&lt;br&gt;default out 14560, 14561" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="40" y="280" width="220" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="sitl2" value="&lt;b&gt;Drone 3&lt;/b&gt; (-I2, --sysid=3)&lt;br&gt;arducopter  &amp;lt;TCP 5780&amp;gt;  MAVProxy&lt;br&gt;--out 14571 / 14572 / 14573&lt;br&gt;default out 14570, 14571" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="40" y="440" width="220" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="sitl_all" value="Each drone uses all three --out ports; one edge is drawn per port group" style="text;html=1;fontSize=10;align=center;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="30" y="560" width="240" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="dk" value="DroneKit Vehicle x3&lt;br&gt;connect(wait_ready, timeout=180)&lt;br&gt;connect.py:221-260" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="350" y="120" width="210" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="pm" value="pymavlink conn x3&lt;br&gt;wait_heartbeat (no timeout)&lt;br&gt;connect.py:37-42" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="580" y="120" width="210" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tmis" value="&lt;b&gt;thread execute_mission x3&lt;/b&gt;&lt;br&gt;DynamicMissionController&lt;br&gt;GUIDED, arm, takeoff 10 m, queue&lt;br&gt;connect.py:96-204" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="350" y="220" width="210" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="tpub" value="&lt;b&gt;thread publish_drone_mavlink&lt;/b&gt;&lt;br&gt;GPS_RAW_INT / SYS_STATUS / HEARTBEAT&lt;br&gt;every 50 ms, connect.py:45-93" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="580" y="220" width="210" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="twd" value="&lt;b&gt;thread watchdog x3&lt;/b&gt;&lt;br&gt;tail .pln from byte 0 (poll 0.5 s)&lt;br&gt;idle 60 s: RTL+Land&lt;br&gt;connect.py:283-322" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="350" y="340" width="210" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="tlog" value="&lt;b&gt;thread DataLogger x3&lt;/b&gt;&lt;br&gt;0.5 s, data_logger.py:42-78" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="580" y="340" width="210" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tmc" value="&lt;b&gt;thread _handle_mission_complete&lt;/b&gt;&lt;br&gt;SUB connect :5560&lt;br&gt;connect.py:324-338" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="350" y="460" width="210" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="p5560" value="ZMQ PUB bind :5560&lt;br&gt;(drone 1 controller only)&lt;br&gt;connect.py:108-111" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="580" y="460" width="210" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p5556" value="ZMQ PUB bind :5556&lt;br&gt;connect.py:16-18" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="580" y="540" width="210" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="zrx" value="OS thread ZmqPositionReceiverThread&lt;br&gt;SUB connect :5556&lt;br&gt;main.cc:287-308" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="900" y="120" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="q" value="positionQueue + mutex&lt;br&gt;drained every 10 ms&lt;br&gt;main.cc:310-323" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="120" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n0" value="&lt;b&gt;Node 0 (leader)&lt;/b&gt;&lt;br&gt;sysid 1, 10.1.1.1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="900" y="230" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" value="&lt;b&gt;Node 1&lt;/b&gt;&lt;br&gt;sysid 2, 10.1.1.2" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="230" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="&lt;b&gt;Node 2&lt;/b&gt;&lt;br&gt;sysid 3, 10.1.1.3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="230" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wp" value="SendWaypointPairFromDrone0&lt;br&gt;t = 20 / 30 / 40 s&lt;br&gt;main.cc:137-183" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="900" y="330" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="sink" value="PacketSink UDP 20000 per node&lt;br&gt;Rx trace logs GPS only (F6)&lt;br&gt;main.cc:340-381" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="330" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="p5555" value="ZMQ PUB bind :5555&lt;br&gt;main.cc:407-408" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="900" y="430" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="mesh_note" value="802.11a ad-hoc, YANS, LogDistance, AARF&lt;br&gt;no GCS node (F5)" style="text;html=1;fontSize=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="430" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="psub" value="&lt;b&gt;main loop&lt;/b&gt;: SUB connect :5555&lt;br&gt;parse MAVLink, 10 ms poll&lt;br&gt;Parser:75-194" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="900" y="600" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pcon" value="&lt;b&gt;thread drone_thread x3&lt;/b&gt;&lt;br&gt;pymavlink conn (udpin)&lt;br&gt;COMMAND_LONG / SET_MODE out&lt;br&gt;Parser:50-72, 116-163" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="600" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="qgc" value="QGroundControl (optional)&lt;br&gt;UDP 14550 / 14560 / 14570" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="610" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f_cfg" value="drones_config.json&lt;br&gt;(read by connect.py:21, Parser:16)" style="shape=note;whiteSpace=wrap;html=1;size=14;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="20" y="800" width="220" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f_pln" value="mission/mission-drone-{id}.pln&lt;br&gt;id,x,y,alt (append-only, committed in git, F7)" style="shape=note;whiteSpace=wrap;html=1;size=14;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="330" y="800" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f_csv" value="logs/drone_{id}_log_{ts}.csv&lt;br&gt;21 columns" style="shape=note;whiteSpace=wrap;html=1;size=14;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="600" y="800" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f_pcap" value="ns3-output/multi-drone-mesh-{ts}-{node}-0.pcap&lt;br&gt;802.11 (linktype 105)" style="shape=note;whiteSpace=wrap;html=1;size=14;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="880" y="800" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f_anim" value="ns3-output/multi-drone-mesh-anim_{ts}.xml&lt;br&gt;NetAnim" style="shape=note;whiteSpace=wrap;html=1;size=14;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="800" width="210" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f_log" value="~/ns3_output.log&lt;br&gt;(~/bin/xterm stand-in)" style="shape=note;whiteSpace=wrap;html=1;size=14;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1360" y="800" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="&lt;b&gt;Legend&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#1f5fa8&quot;&gt;solid blue&lt;/font&gt;: UDP MAVLink (127.0.0.1)&lt;br&gt;&lt;font color=&quot;#9673a6&quot;&gt;&lt;b&gt;thick purple&lt;/b&gt;&lt;/font&gt;: ZeroMQ over TCP&lt;br&gt;&lt;font color=&quot;#d6001c&quot;&gt;red&lt;/font&gt;: simulated mesh UDP 20000&lt;br&gt;&lt;font color=&quot;#555555&quot;&gt;grey&lt;/font&gt;: in-process call / queue&lt;br&gt;&lt;font color=&quot;#b58900&quot;&gt;dashed&lt;/font&gt;: file / process" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="20" y="640" width="260" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="UDP 14551/14561/14571" style="endArrow=block;startArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1f5fa8;" edge="1" parent="1" source="sitl0" target="dk">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="UDP 14552/14562/14572" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1f5fa8;" edge="1" parent="1" source="sitl1" target="pm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="UDP 14553/14563/14573" style="endArrow=block;startArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1f5fa8;" edge="1" parent="1" source="sitl2" target="pcon">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="raw copy (by src sysid)" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1f5fa8;" edge="1" parent="1" source="psub" target="qgc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="COMMAND_LONG / SET_MODE" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#555555;" edge="1" parent="1" source="psub" target="pcon">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z1" value="[type][idx][raw MAVLink]" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeWidth=3;strokeColor=#9673a6;" edge="1" parent="1" source="p5556" target="zrx">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z2" value="2-part: MISSION_ITEM sysid 2, 3" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeWidth=3;strokeColor=#9673a6;" edge="1" parent="1" source="p5555" target="psub">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z3" value="&quot;MISSION_COMPLETE&quot;" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeWidth=3;strokeColor=#9673a6;" edge="1" parent="1" source="p5560" target="tmc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i1" value="recv_match" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#555555;" edge="1" parent="1" source="tpub" target="pm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i2" value="" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#555555;" edge="1" parent="1" source="tpub" target="p5556">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i3" value="queue MoveToWaypoint" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#555555;" edge="1" parent="1" source="twd" target="tmis">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i4" value="queue RTL+Land (2..N)" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#555555;" edge="1" parent="1" source="tmc" target="tmis">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i5" value="drone 1 Land done" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#555555;" edge="1" parent="1" source="tmis" target="p5560">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i6" value="mode/arm/takeoff/&lt;br&gt;SET_POSITION_TARGET_LOCAL_NED" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#555555;" edge="1" parent="1" source="tmis" target="dk">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i7" value="read state" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#555555;" edge="1" parent="1" source="tlog" target="dk">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i8" value="" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#555555;" edge="1" parent="1" source="zrx" target="q">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i9" value="SetPosition + relay" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#555555;" edge="1" parent="1" source="q" target="n0">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i10" value="" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#555555;" edge="1" parent="1" source="wp" target="n0">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i11" value="publish at SEND time (F6)" style="endArrow=block;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#555555;" edge="1" parent="1" source="wp" target="p5555">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" value="UDP 20000 MISSION_ITEM" style="endArrow=block;html=1;fontSize=10;rounded=0;strokeColor=#d6001c;" edge="1" parent="1" source="n0" target="n1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m2" value="relay GPS/HB/SYS" style="endArrow=block;html=1;fontSize=10;rounded=0;strokeColor=#d6001c;" edge="1" parent="1" source="n1" target="n2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m3" value="" style="endArrow=block;html=1;fontSize=10;rounded=0;strokeColor=#d6001c;" edge="1" parent="1" source="n1" target="sink">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f1" value="append (Parser:166-194)" style="endArrow=open;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#b58900;" edge="1" parent="1" source="psub" target="f_pln">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" value="tail (connect.py:285-310)" style="endArrow=open;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#b58900;" edge="1" parent="1" source="f_pln" target="twd">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f3" value="write" style="endArrow=open;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#b58900;" edge="1" parent="1" source="tlog" target="f_csv">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f4" value="EnablePcapAll" style="endArrow=open;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#b58900;" edge="1" parent="1" source="c_ns3" target="f_pcap">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f5" value="AnimationInterface" style="endArrow=open;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#b58900;" edge="1" parent="1" source="c_ns3" target="f_anim">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f6" value="stdout" style="endArrow=open;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#b58900;" edge="1" parent="1" source="c_ns3" target="f_log">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f7" value="Popen xterm -hold -e ns3_bin (connect.py:277-279)" style="endArrow=open;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#b58900;" edge="1" parent="1" source="c_cp" target="c_ns3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f8" value="" style="endArrow=open;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#b58900;" edge="1" parent="1" source="f_cfg" target="c_cp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f9" value="" style="endArrow=open;html=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#b58900;" edge="1" parent="1" source="f_cfg" target="c_par">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
