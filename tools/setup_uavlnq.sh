@@ -41,4 +41,7 @@ echo "sim_vehicle.py : $(which sim_vehicle.py || echo MISSING)"
 echo "arducopter     : $(ls ~/ardupilot/build/sitl/bin/arducopter 2>/dev/null || echo MISSING)"
 echo "ns-3 programs  :"; ls ~/ns-3-dev/build/scratch/*/ 2>/dev/null | grep -i drone || echo "  MISSING"
 "$UAVLNQ/.venv/bin/python" -c "import dronekit, pymavlink, zmq; print('dronekit/pymavlink/zmq import OK')"
+# Team addition (task 1.1.1): puts sim_vehicle.py and MAVProxy on the path for every new terminal, because Codespaces terminals do not read ~/.profile.
+grep -q 'ardupilot/Tools/autotest' ~/.bashrc || echo 'export PATH=$HOME/ardupilot/Tools/autotest:$HOME/.local/bin:$PATH' >> ~/.bashrc
+
 echo "ALL DONE - task 1.1.1 install finished"
