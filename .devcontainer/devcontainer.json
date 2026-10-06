@@ -1,5 +1,0 @@
-   {
-     "name": "UAVLnQ (Ubuntu 22.04)",
-     "image": "mcr.microsoft.com/devcontainers/base:jammy",
-     "hostRequirements": { "cpus": 4, "storage": "32gb" }
-   }
