@@ -1,0 +1,4 @@
+#!/bin/bash
+# Team addition (task 1.1.2): stands in for xterm on machines with no screen by running the ns-3 command directly and saving its output to a log.
+while [ "$1" = "-hold" ] || [ "$1" = "-e" ]; do shift; done
+exec "$@" > "$HOME/ns3_output.log" 2>&1
