@@ -1,0 +1,6 @@
+{
+  // Team addition (task 1.1.1): pins Ubuntu 22.04 and 4 cores so UAVLnQ builds the same way for everyone.
+  "name": "UAVLnQ (Ubuntu 22.04)",
+  "image": "mcr.microsoft.com/devcontainers/base:jammy",
+  "hostRequirements": { "cpus": 4, "storage": "32gb" }
+}
