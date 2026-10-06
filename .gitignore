@@ -20,3 +20,7 @@ ns3-output/
 # Team addition (task 1.1.2): run outputs stay out of git; the evidence we keep is copied into docs/evidence/.
 logs/
 ns3-output/
+
+# Team addition (task 1.1.2): run outputs stay out of git; the evidence we keep is copied into docs/evidence/.
+logs/
+ns3-output/
