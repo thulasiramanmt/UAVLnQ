@@ -1,0 +1,6 @@
+# Team addition (task 1.4.2): send Docker only the files the UAVLnQ image copies in, so builds stay small and fast.
+**
+!requirements.txt
+!scratch/3-Leader-Follower-Drone-Mesh/**
+!scratch/3-Leader-Follower-Drone-Mesh-with-attacker/**
+!scratch/Multi-Leader-Follower-Drone-Mesh/**
