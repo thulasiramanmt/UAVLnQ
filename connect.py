@@ -41,6 +41,8 @@ for conn_str in CONNECTION_STRINGS_Mavlink:
     mav_connections.append(master)
     print(f"Connected to MAVLink on {conn_str}")
 
+# Team change (task 1.5.6): lets cleanup tell the telemetry publisher thread to stop.
+stop_publishing = threading.Event()
 
 def publish_drone_mavlink():
     """
@@ -52,7 +54,8 @@ def publish_drone_mavlink():
       - Second byte: drone index (0, 1, 2 for Drone 1..3)
       - Remaining bytes: raw MAVLink message bytes
     """
-    while True:
+    # Team change (task 1.5.6): the loop ends when cleanup sets stop_publishing instead of running forever.
+    while not stop_publishing.is_set():
         # Iterate over all MAVLink connections (one per drone)
         for drone_id, master in enumerate(mav_connections):
             if master is None:
@@ -158,6 +161,9 @@ class DynamicMissionController:
                     if self.complete_pub and isinstance(cmd, Land):
                         print("Drone 1: Land done - publishing MISSION_COMPLETE")
                         self.complete_pub.send_string("MISSION_COMPLETE")
+                    # Team change (task 1.5.6): a finished Land ends this drone's mission loop so the controller can exit by itself.
+                    if isinstance(cmd, Land):
+                        self.active = False
                     self.current_command = None
                 else:
                     time.sleep(0.1)
@@ -214,6 +220,8 @@ class DroneCommander:
         self.ns3_process = None
         # Team change (task 1.5.6): holds the open ns-3 log file so cleanup can close it.
         self.ns3_log = None
+        # Team change (task 1.5.6): lets cleanup stop the mission-complete listener thread.
+        self.running = True
 
         # Listen for Drone 1's mission-complete
         self.complete_sub = context.socket(zmq.SUB)
@@ -337,7 +345,8 @@ class DroneCommander:
 
     def _handle_mission_complete(self):
         """When Drone 1 lands, queue RTL+LAND on other drones."""
-        while True:
+        # Team change (task 1.5.6): the loop ends when cleanup sets running to False instead of running forever.
+        while self.running:
             try:
                 msg = self.complete_sub.recv_string(zmq.NOBLOCK)
                 if msg == "MISSION_COMPLETE":
@@ -407,6 +416,11 @@ class DroneCommander:
         """Clean up resources when missions are complete"""
         print("Cleaning up resources...")
 
+        # Team change (task 1.5.6): stops the listener and publisher threads and gives them a second to finish before the sockets close.
+        self.running = False
+        stop_publishing.set()
+        time.sleep(1)
+
         # Stop filesystem watchdogs
         for ev in self.watchdog_stop_events:
             ev.set()
@@ -439,7 +453,8 @@ class DroneCommander:
         try:
             position_publisher.close()
             self.complete_sub.close()
-            context.term()
+            # Team change (task 1.5.6): destroy closes every remaining socket without waiting, where term would hang on the Drone 1 publisher socket.
+            context.destroy(linger=0)
             print("ZMQ connections closed")
         except Exception as e:
             print(f"Error closing ZMQ: {e}")
