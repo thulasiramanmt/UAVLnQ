@@ -212,6 +212,8 @@ class DroneCommander:
         self.watchdog_threads = []
         self.watchdog_stop_events = []
         self.ns3_process = None
+        # Team change (task 1.5.6): holds the open ns-3 log file so cleanup can close it.
+        self.ns3_log = None
 
         # Listen for Drone 1's mission-complete
         self.complete_sub = context.socket(zmq.SUB)
@@ -261,8 +263,8 @@ class DroneCommander:
         print(f"Successfully connected to {len(self.vehicles)} drones")
 
     def start_ns3(self):
-        """Launch NS-3 simulation inside an xterm window"""
-        print("Starting NS-3 simulation in xterm...")
+        """Launch NS-3 simulation directly and save its output to logs/ns3_output.log"""
+        print("Starting NS-3 simulation...")
 
         # Get drone count from the JSON
         drones_count = len(drones)
@@ -275,9 +277,20 @@ class DroneCommander:
         param_list = shlex.split(ns3_parameters)
         print(f"NS-3 parameter list: {param_list}")
         
-        self.ns3_process = subprocess.Popen(
-            ["xterm", "-hold", "-e", ns3_bin] + param_list
-        )
+        # Team change (task 1.5.6): starts ns-3 directly instead of inside xterm so it runs on machines with no display, and stops with a clear error if ns-3 fails to start.
+        os.makedirs("logs", exist_ok=True)
+        self.ns3_log = open("logs/ns3_output.log", "w")
+        try:
+            self.ns3_process = subprocess.Popen(
+                [ns3_bin] + param_list,
+                stdout=self.ns3_log,
+                stderr=subprocess.STDOUT
+            )
+        except OSError as e:
+            raise RuntimeError(f"NS-3 could not start ({ns3_bin}): {e}")
+        time.sleep(2)
+        if self.ns3_process.poll() is not None:
+            raise RuntimeError(f"NS-3 exited at start with code {self.ns3_process.returncode}; see logs/ns3_output.log")
 
         print(f"NS-3 PID {self.ns3_process.pid}, started with parameters: {ns3_parameters}")
 
@@ -407,6 +420,10 @@ class DroneCommander:
             print("Terminating NS-3 simulation...")
             self.ns3_process.terminate()
             self.ns3_process.wait()
+
+        # Team change (task 1.5.6): closes the ns-3 log file if it was opened.
+        if self.ns3_log and not self.ns3_log.closed:
+            self.ns3_log.close()
 
         # Close all vehicles
         for vehicle in self.vehicles:
