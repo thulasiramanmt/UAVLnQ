@@ -1,0 +1,29 @@
+{
+  "Drones_config": [
+    {
+      "id": 1,
+      "dronekit_connection": "udp:127.0.0.1:14551",
+      "mavlink_connection": "udp:127.0.0.1:14552",
+      "mavlink_parser_connection": "udp:127.0.0.1:14553",
+      "qgroundcontrol_port": 14550
+    },
+    {
+      "id": 2,
+      "dronekit_connection": "udp:127.0.0.1:14561",
+      "mavlink_connection": "udp:127.0.0.1:14562",
+      "mavlink_parser_connection": "udp:127.0.0.1:14563",
+      "qgroundcontrol_port": 14560
+    },
+    {
+      "id": 3,
+      "dronekit_connection": "udp:127.0.0.1:14571",
+      "mavlink_connection": "udp:127.0.0.1:14572",
+      "mavlink_parser_connection": "udp:127.0.0.1:14573",
+      "qgroundcontrol_port": 14570
+    }
+  ],
+  "NS3_config": {
+    "ns3_bin": "/opt/ns-3/build/scratch/3-Leader-Follower-Drone-Mesh/ns3.44-three_drone_mesh_normal-optimized",
+    "parameters": "--o=/data/uavlnq/run-20261015_032906/ns3-output --simTime=200"
+  }
+}
