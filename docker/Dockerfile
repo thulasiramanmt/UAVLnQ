@@ -50,11 +50,14 @@ RUN git clone --depth 1 --branch "${NS3_TAG}" https://gitlab.com/nsnam/ns-3-dev.
 COPY --chown=testbed:testbed scratch/3-Leader-Follower-Drone-Mesh /opt/ns-3/scratch/3-Leader-Follower-Drone-Mesh
 COPY --chown=testbed:testbed scratch/3-Leader-Follower-Drone-Mesh-with-attacker /opt/ns-3/scratch/3-Leader-Follower-Drone-Mesh-with-attacker
 COPY --chown=testbed:testbed scratch/Multi-Leader-Follower-Drone-Mesh /opt/ns-3/scratch/Multi-Leader-Follower-Drone-Mesh
+# Team addition (swarm): UAVLnQ's Wi-Fi mesh rebuilt as the radio between the swarm's drone containers.
+COPY --chown=testbed:testbed scratch/swarm-air /opt/ns-3/scratch/swarm-air
 WORKDIR /opt/ns-3
 RUN ./ns3 configure --build-profile=optimized --disable-examples --disable-tests \
         --enable-modules="core;network;mobility;wifi;internet;applications;netanim" \
  && ./ns3 build \
- && test -x build/scratch/3-Leader-Follower-Drone-Mesh/ns3.44-three_drone_mesh_normal-optimized
+ && test -x build/scratch/3-Leader-Follower-Drone-Mesh/ns3.44-three_drone_mesh_normal-optimized \
+ && test -x build/scratch/swarm-air/ns3.44-swarm_air-optimized
 
 # Team addition (task 1.4.2): UAVLnQ's own Python 3.9 environment, kept apart from the team's Python 3.10 one.
 COPY --chown=testbed:testbed requirements.txt /opt/uavlnq/requirements.txt
@@ -64,6 +67,7 @@ RUN python3.9 -m venv /opt/uavlnq-venv \
  && /opt/uavlnq-venv/bin/python -c "import dronekit, pymavlink, zmq; print('UAVLnQ Python 3.9 environment OK')"
 
 ENV UAVLNQ_NS3_BIN=/opt/ns-3/build/scratch/3-Leader-Follower-Drone-Mesh/ns3.44-three_drone_mesh_normal-optimized \
+    UAVLNQ_SWARM_AIR_BIN=/opt/ns-3/build/scratch/swarm-air/ns3.44-swarm_air-optimized \
     UAVLNQ_PYTHON=/opt/uavlnq-venv/bin/python
 
 WORKDIR /workspace
